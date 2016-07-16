@@ -16,4 +16,4 @@
   1. From the _Terminal_ enter `sudo apt-get install tightvncserver`.
   * Run the server by entering `tightvncserver` (asks for a password and creates a startup script).
   * [install the client](http://www.tightvnc.com/download.php) on your remote computer.
-  * You should now be able to access your C.H.I.P. **ugate:5901** from the client.
+  * You should now be able to access your C.H.I.P. **ugate:5901** from the client assuming that your C.H.I.P. has *ugate* as it's host name.

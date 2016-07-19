@@ -15,3 +15,4 @@
 * Execute the following command to install node/npm in `/usr/local/node` and `/usr/local/npm` (replacing X.X.X with the version that was downloaded): `tar -C /usr/local --strip-components 1 -xJf /home/chip/Downloads/node-vX.X.X-linux-armv7l.tar.xz`
 * Next, we need to generate a self-signed certificate so we can communicate over an encrypted connection by entering the following command on C.H.I.P. `sudo openssl req -x509 -sha256 -newkey rsa:2048 -keyout /etc/ssl/private/key.pem -out /etc/ssl/certs/cert.pem -days 18250 -nodes`
 * Install build-essential so we can *make* the `ffi` and `ref` modules: `sudo apt-get install build-essential`
+`sudo chown -R $(whoami)`

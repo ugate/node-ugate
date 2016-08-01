@@ -4,7 +4,7 @@
 | ------------- | ------------- | ------------- | ------------- | 
 | 1.            | [C.H.I.P.](http://getchip.com)  | 1 | $9 + shipping |
 ## Pre-Installation
-1. [Flash C.H.I.P.](http://flash.getchip.com) to the latest version (use `uname -a` from the _Terminal_ to check your current version) and execute an `sudo apt-get update` and `sudo apt-get upgrade` before proceeding.
+1. [Flash C.H.I.P.](http://flash.getchip.com) to the latest version (use `uname -a` from the _Terminal_ to check your current version) and execute an `echo -e "chip" | sudo -S apt-get update` and `echo -e "chip" | sudo -S apt-get upgrade` before proceeding.
 * Connect C.H.I.P. to your existing WiFi network using `Computer Things! > Settings > Network Connections` or click the :signal_strength: icon in the upper right corner of screen. If you're running C.H.I.P. in headless mode you can execute `sudo nmcli device wifi connect '<your_network_SSID_name>' password '<your_wifi_password>' ifname wlan0`.
 * Follow the steps outlined on NTC's blog for [Secure-A-C.H.I.P](http://blog.nextthing.co/secure-a-chip) (including changing the suggested _root_ password using `sudo passwd root`). Make sure you note the host name you change your C.H.I.P. to. Proceeding references in this guide will assume the host name will be *ugate* although it can be something else.
 * (Optional) If you'd like to access your system from outside your local network you'll need to setup your network to allow `HTTPS` traffic through to your C.H.I.P. The following instructions are for [OpenWRT](https://openwrt.org/) with [Luci](https://wiki.openwrt.org/doc/techref/luci), but they should be similar in other routers as well. 

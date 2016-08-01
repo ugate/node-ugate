@@ -24,7 +24,7 @@ if [ -n "$res" ]; then
   hn=$res
 fi
 echo "=============================="
-nmcli con show
+nmcli device wifi list
 echo "=============================="
 echo -n "Enter a SSID name to connect to from the connections above > "
 read ssid
@@ -38,4 +38,5 @@ if [ -z "$ssidp" ]; then
   echo "SSID password required. Exiting install..."
   exit 1
 fi
-echo "$pwo" | sudo -S nmcli device wifi connect "$ssid" password "$ssidp" ifname wlan0
+echo "$pwo" | sudo -S nmcli delete id "$ssid" &> /dev/null
+sudo nmcli device wifi connect "$ssid" password "$ssidp" ifname wlan0

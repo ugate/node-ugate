@@ -5,15 +5,19 @@
 | 1.            | [C.H.I.P.](http://getchip.com)  | 1 | $9 + shipping |
 ## Pre-Installation
 1. [Flash C.H.I.P.](http://flash.getchip.com) to the latest version (use `uname -a` from the _Terminal_ to check your current version).
-* Connect C.H.I.P. to your existing WiFi network using `Computer Things! > Settings > Network Connections` or click the :signal_strength: icon in the upper right corner of screen. If you're running C.H.I.P. in headless mode you can execute `sudo nmcli device wifi connect '<your_network_SSID_name>' password '<your_wifi_password>' ifname wlan0`.
-* Execute an `echo -e "chip" | sudo -S apt-get update && sudo apt-get -y upgrade` before proceeding.
-* Follow the steps outlined on NTC's blog for [Secure-A-C.H.I.P](http://blog.nextthing.co/secure-a-chip) (including changing the suggested _root_ password using `sudo passwd root`). Make sure you note the host name you change your C.H.I.P. to. Proceeding references in this guide will assume the host name will be *ugate* although it can be something else. Alternatively, you can execute `echo -e "chip\nYOUR_NEW_CHIP_PASSWORD\nYOUR_NEW_CHIP_PASSWORD" | passwd chip` and `echo -e "YOUR_NEW_CHIP_PASSWORD\nYOUR_NEW_ROOT_PASSWORD\nYOUR_NEW_ROOT_PASSWORD" | sudo -S passwd root`
+* Power up your CHIP and connect a USB cable from the micro USB on your CHIP to a USB port on your PC (like you did when flashing)
+* Open a command prompt on the PC that's connected Follow the steps outlined the docs for CHIP for SSH ](http://docs.getchip.com/chip.html#headless-chip)
+* From a command prompt type `sudo nano install.sh`. This will open the nano editor.
+* Copy the contents of the [install script](/ugate/node-ugate/docs/install.sh) and paste/`Ctrl+v` 
+* `sudo chmod +x install.sh`. If using a GUI based **Terminal** makes sure to set your encoding to UTF-8 from the menu `Terminal > Set Encoding > Unicode > UTF-8`. The script will prompt you through the steps needed to setup your CHIP:
+  1. Securing your CHIP by changing the password for the `chip` and `root` users
+  * Changing your host name to somthing more meaningful than the default `chip`
+  * Connecting to WiFi
+  * Ensuring your CHIP's software is up-to-date
+  * Installing a `C/C++` compiler
+  * Installing/Updating [Node.js](https://nodejs.org) to the latest version
+  * Generate a self-signed certificate that will be used for secure HTTPS/TLS communication
 * (Optional) If you'd like to access your system from outside your local network you'll need to setup your network to allow `HTTPS` traffic through to your C.H.I.P. The following instructions are for [OpenWRT](https://openwrt.org/) with [Luci](https://wiki.openwrt.org/doc/techref/luci), but they should be similar in other routers as well. 
   1. Under your local OpenWRT navigate to `Network > DHCP and DNS > Static Leases` assign a new static IP address to your C.H.I.P. MAC address (use `ip addr` to identify). The host name should match the host name used on your C.H.I.P.
   * Under `Network > Firewall > Port Forwards` add a new _TCP+UDP_ entry from _WAN_ to _LAN_ on port _443_ that points to the static IP that was setup in the previous step.
   * Under `Services > Dynamic DNS` edit *myddns_ipv4* and/or *myddns_ipv6* with an account from a free DDNS Service provider. It's probably a good idea to make sure the updating service from the DDNS provider uses an encrypted HTTPS connection when updating your IP. For example, [Dynu.com](https://www.dynu.com/en-US/DynamicDNS) has an available update API of `https://api.dynu.com/nic/update?hostname=[DOMAIN]&password=[PASSWORD]`. You may also need to install some additional packages in OpenWRT for SSL/TLS if the *Dynamic DNS* pages shows a *Hint* section which can easily be done via `System > Software`.
-* From C.H.I.P. download [the most current version of Node.js for ARMv7](https://nodejs.org/en/download/current/). NOTE: Clicking on the download button on Node's website from CH.I.P. may download an incompatible version. Also, using `sudo apt-get install nodejs` may download an older version than what's available.
-* Execute the following command to install node/npm in `/usr/local/node` and `/usr/local/npm` (replacing X.X.X with the version that was downloaded): `tar -C /usr/local --strip-components 1 -xJf /home/chip/Downloads/node-vX.X.X-linux-armv7l.tar.xz`
-* Next, we need to generate a self-signed certificate so we can communicate over an encrypted connection by entering the following command on C.H.I.P. `sudo openssl req -x509 -sha256 -newkey rsa:2048 -keyout /etc/ssl/private/key.pem -out /etc/ssl/certs/cert.pem -days 18250 -nodes`
-* Install build-essential so we can *make* the `ffi` and `ref` modules: `sudo apt-get install build-essential`
-`sudo chown -R $(whoami)`

@@ -4,6 +4,7 @@ LC_ALL=en_US.UTF-8
 # run 'sudo chmod +x install.sh && ./install.sh' to run the installation
 clear
 res=
+dtc=
 rboot=
 uname -a
 cat << "EOF"
@@ -217,7 +218,7 @@ if [[ $yna == "${yn[1]}" ]]; then
   sudo apt-get -y install build-essential
 fi
 
-# install build-essential
+# enable /dev/i2c-1
 echo "==========================================================================="
 echo "By default /dev/i2c-1 (I2C on bus 1) is \"disabled\" in CHIP's DTB."
 echo "Enabling i2c-1 will allow you to use the TWI1-SDA/TWI1-SCK pins on your CHIP."
@@ -233,8 +234,10 @@ select yna in "${yn[@]}"; do
   done
 done
 if [[ $yna == "${yn[1]}" ]]; then
-  mkdir -p
-  sudo apt install device-tree-compiler
+  if [[ $dtc != 1 ]]; then
+    sudo apt install device-tree-compiler
+    dtc=1
+  fi
   sudo cp /boot/sun5i-r8-chip.dtb /boot/sun5i-r8-chip.dtb.bak.$(date -d "today" +"%Y%m%d%H%M")
   sudo fdtput -t s /boot/sun5i-r8-chip.dtb "/aliases" "i2c1" "/soc@01c00000/i2c@01c2b000"
   sudo fdtput -t s /boot/sun5i-r8-chip.dtb "/soc@01c00000/i2c@01c2b000" "status" "okay"
